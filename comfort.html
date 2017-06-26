@@ -1,0 +1,119 @@
+<script type="text/javascript">
+    RED.nodes.registerType('comfort',{
+        category: 'function',
+        color: '#d894ff',
+        defaults: {
+            name: {value:""},
+            tempField: {value: "payload.temperature"},
+            tempFieldType: {value: "msg"},
+            humidityField: {value: "payload.humidity"},
+            humidityFieldType: {value: "msg"},
+            airspeedField: {value: "0"},
+            airspeedFieldType: {value: "num"},
+            metabolicRateField: {value: "1"},
+            metabolicRateFieldType: {value: "num"},
+            clothingLevelField: {value: "0.5"},
+            clothingLevelFieldType: {value: "num"},
+            comfortField: {value: "payload.comfort"},
+            comfortFieldType: {value: "msg"}
+        },
+        inputs:1,
+        outputs:1,
+        icon: "function.png",
+        label: function() {
+            return this.name||"comfort";
+        },
+        oneditprepare: function() {
+            if (!this.tempFieldType) {
+                this.tempFieldType = 'msg';
+            }
+            $("#node-input-tempField").typedInput({
+                default: 'msg',
+                types: ['msg','flow','global','num'],
+                typeField: $("#node-input-tempFieldType")
+            });
+            if (!this.humidityFieldType) {
+                this.humidityFieldType = 'msg';
+            }
+            $("#node-input-humidityField").typedInput({
+                default: 'msg',
+                types: ['msg','flow','global','num'],
+                typeField: $("#node-input-humidityFieldType")
+            });
+            if (!this.airspeedFieldType) {
+                this.airspeedFieldType = 'num';
+            }
+            $("#node-input-airspeedField").typedInput({
+                default: 'msg',
+                types: ['msg','flow','global','num'],
+                typeField: $("#node-input-airspeedFieldType")
+            });
+            if (!this.metabolicRateFieldType) {
+                this.metabolicRateFieldType = 'num';
+            }
+            $("#node-input-metabolicRateField").typedInput({
+                default: 'msg',
+                types: ['msg','flow','global','num'],
+                typeField: $("#node-input-metabolicRateFieldType")
+            });
+            if (!this.clothingLevelFieldType) {
+                this.clothingLevelFieldType = 'num';
+            }
+            $("#node-input-clothingLevelField").typedInput({
+                default: 'msg',
+                types: ['msg','flow','global','num'],
+                typeField: $("#node-input-clothingLevelFieldType")
+            });
+
+            if (!this.comfortFieldType) {
+                this.comfortFieldType = 'msg';
+            }
+            $("#node-input-comfortField").typedInput({
+                default: 'msg',
+                types: ['msg','flow','global'],
+                typeField: $("#node-input-comfortFieldType")
+            });
+        }
+    });
+</script>
+
+<script type="text/x-red" data-template-name="comfort">
+    <div class="form-row">
+        <label for="node-input-name"><i class="icon-tag"></i> Name</label>
+        <input type="text" id="node-input-name" placeholder="Name">
+    </div>
+    <div class="form-row">
+        <label for="node-input-tempField"><i class="fa fa-edit"></i> Temperature Property</label>
+        <input type="text" id="node-input-tempField" placeholder="Temperature Property" style="width:250px;">
+        <input type="hidden" id="node-input-tempFieldType">
+    </div>
+    <div class="form-row">
+        <label for="node-input-humidityField"><i class="fa fa-edit"></i> Humidity Property</label>
+        <input type="text" id="node-input-humidityField" placeholder="Humidity Property" style="width:250px;">
+        <input type="hidden" id="node-input-humidityFieldType">
+    </div>
+    <div class="form-row">
+        <label for="node-input-airspeedField"><i class="fa fa-edit"></i> Air Speed Property</label>
+        <input type="text" id="node-input-airspeedField" placeholder="Air Speed Property" style="width:250px;">
+        <input type="hidden" id="node-input-airspeedFieldType">
+    </div>
+    <div class="form-row">
+        <label for="node-input-metabolicRateField"><i class="fa fa-edit"></i> Metabolic Rate Property</label>
+        <input type="text" id="node-input-metabolicRateField" placeholder="Metabolic Rate Property" style="width:250px;">
+        <input type="hidden" id="node-input-metabolicRateFieldType">
+    </div>
+    <div class="form-row">
+        <label for="node-input-clothingLevelField"><i class="fa fa-edit"></i> Clothing Level Property</label>
+        <input type="text" id="node-input-clothingLevelField" placeholder="Clothing Level Property" style="width:250px;">
+        <input type="hidden" id="node-input-clothingLevelFieldType">
+    </div>
+    <div class="form-row">
+        <label for="node-input-hashField"><i class="fa fa-edit"></i> Comfort Property</label>
+        <input type="text" id="node-input-comfortField" placeholder="Property to store comfort" style="width:250px;">
+        <input type="hidden" id="node-input-comfortFieldType">
+    </div>
+</script>
+
+<script type="text/x-red" data-help-name="comfort">
+    <p>Calculates the thermal comfort level and places the value in the specified property.</p>
+</script>

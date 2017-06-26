@@ -1,0 +1,33 @@
+{
+  "name": "node-red-contrib-comfort",
+  "version": "1.0.0",
+  "description": "A Node Red node to calculate the thermal comfort level of an environment using ASHRAE Standard 55",
+  "dependencies": {
+    "md5": "2.1.*"
+  },
+  "author": {
+    "name": "Dean Cording",
+    "email": "dean@cording.id.au"
+  },
+  "license": "MIT",
+  "keywords": [
+    "node-red",
+    "ASHRAE",
+    "temperature",
+    "humidity",
+    "comfort"
+  ],
+  "bugs": {
+    "url": "https://github.com/DeanCording/node-red-contrib-comfort/issues"
+  },
+  "homepage": "https://github.com/DeanCording/node-red-contrib-comfort",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/DeanCording/node-red-contrib-comfort.git"
+  },
+  "node-red": {
+    "nodes": {
+      "comfort": "comfort.js"
+    }
+  }
+}
