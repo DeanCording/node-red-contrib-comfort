@@ -3,7 +3,6 @@
   "version": "1.0.0",
   "description": "A Node Red node to calculate the thermal comfort level of an environment using ASHRAE Standard 55",
   "dependencies": {
-    "md5": "2.1.*"
   },
   "author": {
     "name": "Dean Cording",

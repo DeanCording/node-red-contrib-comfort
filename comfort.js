@@ -17,7 +17,7 @@
  **/
 
 const util = require('util');
-const comf = require('comfortmodels.js').comf;
+const comf = require('./comfortmodels.js').comf;
 
 module.exports = function(RED) {
     "use strict";
@@ -27,15 +27,15 @@ module.exports = function(RED) {
         var node = this;
 
         node.name = n.name;
-        node.tempField = n.TempField || "payload.temperature";
-        node.tempFieldType = n.TempFieldType || "msg";
-        node.humidityField = n.HumidityField || "payload.humidity";
-        node.humidityFieldType = n.HumidityFieldType || "msg";
-        node.airspeedField = n.airspeedField || "0";
+        node.tempField = n.tempField || "payload.temperature";
+        node.tempFieldType = n.tempFieldType || "msg";
+        node.humidityField = n.humidityField || "payload.humidity";
+        node.humidityFieldType = n.humidityFieldType || "msg";
+        node.airspeedField = n.airspeedField || 0;
         node.airspeedFieldType = n.airspeedFieldType || "num";
-        node.metabolicRateField = n.metabolicRateField || "1";
+        node.metabolicRateField = n.metabolicRateField || 1;
         node.metabolicRateFieldType = n.metabolicRateFieldType || "num";
-        node.clothingLevelField = n.clothingLevelField || "0.5";
+        node.clothingLevelField = n.clothingLevelField || 0.5;
         node.clothingLevelFieldType = n.clothingLevelFieldType || "num";
         node.comfortField = n.comfortField  || "payload.comfort";
         node.comfortFieldType = n.comfortFieldType || "msg";
@@ -45,9 +45,9 @@ module.exports = function(RED) {
             var humidity = RED.util.evaluateNodeProperty(node.humidityField,node.humidityFieldType,node,msg);
             var airspeed = RED.util.evaluateNodeProperty(node.airspeedField,node.airspeedFieldType,node,msg);
             var metabolicRate = RED.util.evaluateNodeProperty(node.metabolicRateField,node.metabolicRateFieldType,node,msg);
-            var clothingLevel = RED.util.evaluateNodeProperty(node.clothingLevelField,node.lothingLevelFieldType,node,msg);
+            var clothingLevel = RED.util.evaluateNodeProperty(node.clothingLevelField,node.clothingLevelFieldType,node,msg);
 
-            var comfort = comf.pmv(temperature, temperature, airspeed, humidity, metabolicRate, clothingLevel, 0)
+            var comfort = comf.pmv(temp, temp, airspeed, humidity, metabolicRate, clothingLevel, 0)
 
             if (node.comfortFieldType === 'msg') {
                 RED.util.setMessageProperty(msg,node.comfortField,comfort.pmv);
