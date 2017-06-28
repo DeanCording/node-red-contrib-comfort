@@ -146,7 +146,7 @@
             <tr><td>Cleaning</td><td>2.7</td></tr>
             <tr><td>Walking - casually</td><td>1.7</td></tr>
             <tr><td>Walking - slow</td><td>2.0</td></tr>
-            <tr><td>Walking - medium/td><td>2.6</td></tr>
+            <tr><td>Walking - medium</td><td>2.6</td></tr>
             <tr><td>Walking - fast</td><td>3.8</td></tr>
             <tr><td>Working - light</td><td>2.2</td></tr>
             <tr><td>Working - medium</td><td>2.7</td></tr>
@@ -200,7 +200,6 @@
                     <tr><td>-1.5...-2.5</td><td>cool</td></tr>
                     <tr><td>&lt; -2.5</td><td>cold</td></tr>
                 </table>
-                If the output is a msg property, the specified property is added to the input message and sent on.  Otherwise the input message is passed through unchanged.
                 </dd>
              </dl>
          </li>
@@ -211,6 +210,7 @@
     ANSI/ASHRAE Standard 55 climate model.  The index predicts the mean value of the thermal sensation votes (self-reported perceptions) of a large group of persons on a sensation scale expressed from -3 to +3 corresponding to the categories "cold," "cool," "slightly cool," "neutral," "slight warm," "warm," and "hot."</p>
 
 
+     <p>If the output is a msg property, the specified property is added to the input message and sent on.  Otherwise the input message is passed through unchanged. </p>
 <h3>References</h3>
     <ul>
         <li><a href="https://github.com/CenterForTheBuiltEnvironment/comfort_tool">CBE Thermal Comfort Tool</a> - JavaScript implementation of ASHRAE-55 comfort model</li>
