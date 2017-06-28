@@ -8,7 +8,7 @@
     "name": "Dean Cording",
     "email": "dean@cording.id.au"
   },
-  "license": "MIT",
+  "license": "GPL2",
   "keywords": [
     "node-red",
     "ASHRAE",
