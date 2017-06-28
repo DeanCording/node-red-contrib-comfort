@@ -48,6 +48,7 @@
                 types: ['msg','flow','global','num'],
                 typeField: $("#node-input-airspeedFieldType")
             });
+
             if (!this.metabolicRateFieldType) {
                 this.metabolicRateFieldType = 'num';
             }
@@ -83,28 +84,28 @@
         <input type="text" id="node-input-name" placeholder="Name">
     </div>
     <div class="form-row">
-        <label for="node-input-tempField"><i class="fa fa-edit"></i> Temperature Property</label>
-        <input type="text" id="node-input-tempField" placeholder="Temperature Property" style="width:250px;">
+        <label for="node-input-tempField"><i class="fa fa-edit"></i> Temperature</label>
+        <input type="text" id="node-input-tempField" placeholder="Temperature" style="width:250px;">
         <input type="hidden" id="node-input-tempFieldType">
     </div>
     <div class="form-row">
-        <label for="node-input-humidityField"><i class="fa fa-edit"></i> Humidity Property</label>
-        <input type="text" id="node-input-humidityField" placeholder="Humidity Property" style="width:250px;">
+        <label for="node-input-humidityField"><i class="fa fa-edit"></i> Humidity</label>
+        <input type="text" id="node-input-humidityField" placeholder="Humidity" style="width:250px;">
         <input type="hidden" id="node-input-humidityFieldType">
     </div>
     <div class="form-row">
-        <label for="node-input-airspeedField"><i class="fa fa-edit"></i> Air Speed Property</label>
-        <input type="text" id="node-input-airspeedField" placeholder="Air Speed Property" style="width:250px;">
+        <label for="node-input-airspeedField"><i class="fa fa-edit"></i> Air Speed</label>
+        <input type="text" id="node-input-airspeedField" placeholder="Air Speed" style="width:250px;">
         <input type="hidden" id="node-input-airspeedFieldType">
     </div>
     <div class="form-row">
-        <label for="node-input-metabolicRateField"><i class="fa fa-edit"></i> Metabolic Rate Property</label>
-        <input type="text" id="node-input-metabolicRateField" placeholder="Metabolic Rate Property" style="width:250px;">
+        <label for="node-input-metabolicRateField"><i class="fa fa-edit"></i> Metabolic Rate</label>
+        <input type="text" id="node-input-metabolicRateField" placeholder="Metabolic Rate" style="width:250px;">
         <input type="hidden" id="node-input-metabolicRateFieldType">
     </div>
     <div class="form-row">
-        <label for="node-input-clothingLevelField"><i class="fa fa-edit"></i> Clothing Level Property</label>
-        <input type="text" id="node-input-clothingLevelField" placeholder="Clothing Level Property" style="width:250px;">
+        <label for="node-input-clothingLevelField"><i class="fa fa-edit"></i> Clothing Level</label>
+        <input type="text" id="node-input-clothingLevelField" placeholder="Clothing Level" style="width:250px;">
         <input type="hidden" id="node-input-clothingLevelFieldType">
     </div>
     <div class="form-row">
@@ -116,4 +117,105 @@
 
 <script type="text/x-red" data-help-name="comfort">
     <p>Calculates the thermal comfort level and places the value in the specified property.</p>
+
+    <h3>Inputs</h3>
+    <dl class="message-properties">
+        <dt>Temperature
+            <span class="property-type">number</span>
+        </dt>
+        <dd> <a href="https://en.wikipedia.org/wiki/Operative_temperature">Operative temperature</a> in Celcius</dd>
+        <dt>Humidity
+            <span class="property-type">number</span>
+        </dt>
+        <dd> Relative Humidity level in %</dd>
+        <dt>Air Speed
+            <span class="property-type">number</span>
+        </dt>
+        <dd> Rate of spatial change of air in a space in metres/second.</dd>
+        <dt>Metabolic Rate <span class="property-type">number</span></dt>
+        <dd> The rate of energy production of the human body, which varies for different activities.
+        Some typical values are:
+        <table>
+            <tr><th>Activity</th><th>Rate</th></tr>
+            <tr><td>Sleeping</td><td>0.7</td></tr>
+            <tr><td>Reclining</td><td>0.8</td></tr>
+            <tr><td>Sitting</td><td>1.0</td></tr>
+            <tr><td>Typing</td><td>1.1</td></tr>
+            <tr><td>Standing</td><td>1.2</td></tr>
+            <tr><td>Cooking</td><td>1.8</td></tr>
+            <tr><td>Cleaning</td><td>2.7</td></tr>
+            <tr><td>Walking - casually</td><td>1.7</td></tr>
+            <tr><td>Walking - slow</td><td>2.0</td></tr>
+            <tr><td>Walking - medium/td><td>2.6</td></tr>
+            <tr><td>Walking - fast</td><td>3.8</td></tr>
+            <tr><td>Working - light</td><td>2.2</td></tr>
+            <tr><td>Working - medium</td><td>2.7</td></tr>
+            <tr><td>Working - heavy</td><td>4.0</td></tr>
+            <tr><td>Exercise - light</td><td>3.4</td></tr>
+            <tr><td>Exercise - moderate</td><td>3.8</td></tr>
+            <tr><td>Exercise - hard</td><td>7.0</td></tr>
+        </table>
+        </dd>
+        <dt>Clothing Level <span class="property-type">number</span></dt>
+        <dd> Amount of insulation provided by clothing worn in <a href="https://en.wikipedia.org/wiki/Clothing_insulation"><i>clo</i></a> units.  May also include extra insulation provided by chair or bedding.
+        Some typical values are:
+        <table>
+            <tr><th>Clothing</th><th>Level</th></tr>
+            <tr><td>Naked</td><td>0.0</td></tr>
+            <tr><td>Summer indoor</td><td>0.5</td></tr>
+            <tr><td>Winter indoor</td><td>1.0</td></tr>
+            <tr><td>Sweat pants and sweatshirt</td><td>0.74</td></tr>
+            <tr><td>Sports wear </td><td>0.36</td></tr>
+            <tr><td>Business Suit - light</td><td>0.79</td></tr>
+            <tr><td>Business Suit - heavy</td><td>1.02</td></tr>
+            <tr><td>Coveralls</td><td>0.72</td></tr>
+            <tr><td>Hospital Gown</td><td>0.31</td></tr>
+            <tr><td>Pyjamas - short</td><td>0.42</td></tr>
+            <tr><td>Pyjamas - long</td><td>0.57</td></tr>
+            <tr><td>Coat<d><td>+0.6</td></tr>
+            <tr><td>Parka<d><td>+0.7</td></tr>
+            <tr><td>Chair - Wooden<d><td>+0.01</td></tr>
+            <tr><td>Chair - Office<d><td>+0.1</td></tr>
+            <tr><td>Chair - Executive</td><td>+0.15</td></tr>
+            <tr><td>Armchair</td><td>+0.25</td></tr>
+            <tr><td>Sheet<d><td>+0.1</td></tr>
+            <tr><td>Blanket<d><td>+0.2</td></tr>
+        </table>
+        </dd>
+    </dl>
+
+ <h3>Outputs</h3>
+     <ol class="node-ports">
+         <li>Standard output
+             <dl class="message-properties">
+                 <dt>Comfort Property <span class="property-type">string</span></dt>
+                 <dd>The property used to store the comfort level result. Comfort level is an index that provides a guide to the thermal sense of environmental conditions.  The scale equates to:
+                 <table>
+                    <tr><th>Comfort Level</th><th>Sense</th></tr>
+                    <tr><td>&gt; 2.5</td><td>hot</td></tr>
+                    <tr><td>1.5...2.5</td><td>warm</td></tr>
+                    <tr><td>0.5...1.5</td><td>slightly warm</td></tr>
+                    <tr><td>0.5...-0.5</td><td>neutral</td></tr>
+                    <tr><td>-0.5...-1.5</td><td>slightly cool</td></tr>
+                    <tr><td>-1.5...-2.5</td><td>cool</td></tr>
+                    <tr><td>&lt; -2.5</td><td>cold</td></tr>
+                </table>
+                If the output is a msg property, the specified property is added to the input message and sent on.  Otherwise the input message is passed through unchanged.
+                </dd>
+             </dl>
+         </li>
+     </ol>
+
+<h3>Details</h3>
+    <p>Caculates the thermal comfort index for a given set of nvironmental conditions according to the
+    ANSI/ASHRAE Standard 55 climate model.  The index predicts the mean value of the thermal sensation votes (self-reported perceptions) of a large group of persons on a sensation scale expressed from -3 to +3 corresponding to the categories "cold," "cool," "slightly cool," "neutral," "slight warm," "warm," and "hot."</p>
+
+
+<h3>References</h3>
+    <ul>
+        <li><a href="https://github.com/CenterForTheBuiltEnvironment/comfort_tool">CBE Thermal Comfort Tool</a> - JavaScript implementation of ASHRAE-55 comfort model</li>
+        <li><a href="https://en.wikipedia.org/wiki/Thermal_comfort">Thermal Comfort</a> - Wikipedia article on thermal comfort.</li>
+        <li><a href="https://en.wikipedia.org/wiki/ASHRAE_55">ASHRAE 55</a> - Wikipedia article on ASHRAE 55.</li>
+    </ul>
+</script>
 </script>

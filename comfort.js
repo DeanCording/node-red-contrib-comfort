@@ -47,7 +47,13 @@ module.exports = function(RED) {
             var metabolicRate = RED.util.evaluateNodeProperty(node.metabolicRateField,node.metabolicRateFieldType,node,msg);
             var clothingLevel = RED.util.evaluateNodeProperty(node.clothingLevelField,node.clothingLevelFieldType,node,msg);
 
-            var comfort = comf.pmv(temp, temp, airspeed, humidity, metabolicRate, clothingLevel, 0)
+            var comfort;
+
+            if (node.airspeed <= 0.2) {
+                comfort = comf.pmv(temp, temp, airspeed, humidity, metabolicRate, clothingLevel, 0)
+            } else {
+                comfort = comf.pmvElevatedAirspeed(temp, temp, airspeed, humidity, metabolicRate, clothingLevel, 0)
+            }
 
             if (node.comfortFieldType === 'msg') {
                 RED.util.setMessageProperty(msg,node.comfortField,comfort.pmv);
