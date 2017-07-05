@@ -41,11 +41,11 @@ module.exports = function(RED) {
         node.comfortFieldType = n.comfortFieldType || "msg";
         node.on("input", function(msg) {
 
-            var temp = RED.util.evaluateNodeProperty(node.tempField,node.tempFieldType,node,msg);
-            var humidity = RED.util.evaluateNodeProperty(node.humidityField,node.humidityFieldType,node,msg);
-            var airspeed = RED.util.evaluateNodeProperty(node.airspeedField,node.airspeedFieldType,node,msg);
-            var metabolicRate = RED.util.evaluateNodeProperty(node.metabolicRateField,node.metabolicRateFieldType,node,msg);
-            var clothingLevel = RED.util.evaluateNodeProperty(node.clothingLevelField,node.clothingLevelFieldType,node,msg);
+            var temp = RED.util.evaluateNodeProperty(node.tempField,node.tempFieldType,node,msg) * 1.0;
+            var humidity = RED.util.evaluateNodeProperty(node.humidityField,node.humidityFieldType,node,msg) * 1.0;
+            var airspeed = RED.util.evaluateNodeProperty(node.airspeedField,node.airspeedFieldType,node,msg) * 1.0;
+            var metabolicRate = RED.util.evaluateNodeProperty(node.metabolicRateField,node.metabolicRateFieldType,node,msg) * 1.0;
+            var clothingLevel = RED.util.evaluateNodeProperty(node.clothingLevelField,node.clothingLevelFieldType,node,msg)* 1.0;
 
             var comfort;
 
