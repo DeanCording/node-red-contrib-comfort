@@ -6,6 +6,8 @@
             name: {value:""},
             tempField: {value: "payload.temperature"},
             tempFieldType: {value: "msg"},
+            mrtField: {value: "payload.temperature"},
+            mrtFieldType: {value: "operative"},
             humidityField: {value: "payload.humidity"},
             humidityFieldType: {value: "msg"},
             airspeedField: {value: "0"},
@@ -15,7 +17,9 @@
             clothingLevelField: {value: "0.5"},
             clothingLevelFieldType: {value: "num"},
             comfortField: {value: "payload.comfort"},
-            comfortFieldType: {value: "msg"}
+            comfortFieldType: {value: "msg"},
+            sensationField: {value: "payload.sensation"},
+            sensationFieldType: {value: "msg"}
         },
         inputs:1,
         outputs:1,
@@ -31,6 +35,14 @@
                 default: 'msg',
                 types: ['msg','flow','global','num'],
                 typeField: $("#node-input-tempFieldType")
+            });
+            if (!this.mrtFieldType) {
+                this.mrtFieldType = 'msg';
+            }
+            $("#node-input-mrtField").typedInput({
+                default: 'msg',
+                types: ['msg','flow','global','num',{label:'operative',value:'operative',hasValue:false}],
+                typeField: $("#node-input-mrtFieldType")
             });
             if (!this.humidityFieldType) {
                 this.humidityFieldType = 'msg';
@@ -74,6 +86,14 @@
                 types: ['msg','flow','global'],
                 typeField: $("#node-input-comfortFieldType")
             });
+            if (!this.sensationFieldType) {
+                this.sensationFieldType = 'msg';
+            }
+            $("#node-input-sensationField").typedInput({
+                default: 'msg',
+                types: ['msg','flow','global'],
+                typeField: $("#node-input-sensationFieldType")
+            });
         }
     });
 </script>
@@ -87,6 +107,11 @@
         <label for="node-input-tempField"><i class="fa fa-edit"></i> Temperature</label>
         <input type="text" id="node-input-tempField" placeholder="Temperature" style="width:250px;">
         <input type="hidden" id="node-input-tempFieldType">
+    </div>
+    <div class="form-row">
+        <label for="node-input-mrtField"><i class="fa fa-edit"></i> Mean Radiant Temp</label>
+        <input type="text" id="node-input-mrtField" placeholder="MRT" style="width:250px;">
+        <input type="hidden" id="node-input-mrtFieldType">
     </div>
     <div class="form-row">
         <label for="node-input-humidityField"><i class="fa fa-edit"></i> Humidity</label>
@@ -109,9 +134,14 @@
         <input type="hidden" id="node-input-clothingLevelFieldType">
     </div>
     <div class="form-row">
-        <label for="node-input-hashField"><i class="fa fa-edit"></i> Comfort Property</label>
+        <label for="node-input-comfortField"><i class="fa fa-edit"></i> Comfort Property</label>
         <input type="text" id="node-input-comfortField" placeholder="Property to store comfort" style="width:250px;">
         <input type="hidden" id="node-input-comfortFieldType">
+    </div>
+    <div class="form-row">
+        <label for="node-input-sensationField"><i class="fa fa-edit"></i> Sensation Property</label>
+        <input type="text" id="node-input-sensationField" placeholder="Property to store sensation" style="width:250px;">
+        <input type="hidden" id="node-input-sensationFieldType">
     </div>
 </script>
 
@@ -123,7 +153,11 @@
         <dt>Temperature
             <span class="property-type">number</span>
         </dt>
-        <dd> <a href="https://en.wikipedia.org/wiki/Operative_temperature">Operative temperature</a> in Celcius</dd>
+        <dd> Air temperature or <a href="https://en.wikipedia.org/wiki/Operative_temperature">Operative temperature</a> in Celcius</dd>
+        <dt>Mean Radiant Temperature
+            <span class="property-type">number</span>
+        </dt>
+        <dd> <a href="https://en.wikipedia.org/wiki/Mean_radiant_temperature">Mean radiant temperature</a> in Celcius.  Set this to <i>operative</i> to use operative temperature.</dd>
         <dt>Humidity
             <span class="property-type">number</span>
         </dt>
@@ -185,37 +219,43 @@
     </dl>
 
  <h3>Outputs</h3>
-     <ol class="node-ports">
-         <li>Standard output
-             <dl class="message-properties">
-                 <dt>Comfort Property <span class="property-type">number</span></dt>
-                 <dd>The property used to store the comfort level result. Comfort level is an index that provides a guide to the thermal sense of environmental conditions.  The scale equates to:
-                 <table>
-                    <tr><th>Comfort Level</th><th>Sense</th></tr>
-                    <tr><td>&gt; 2.5</td><td>hot</td></tr>
-                    <tr><td>1.5...2.5</td><td>warm</td></tr>
-                    <tr><td>0.5...1.5</td><td>slightly warm</td></tr>
-                    <tr><td>0.5...-0.5</td><td>neutral</td></tr>
-                    <tr><td>-0.5...-1.5</td><td>slightly cool</td></tr>
-                    <tr><td>-1.5...-2.5</td><td>cool</td></tr>
-                    <tr><td>&lt; -2.5</td><td>cold</td></tr>
-                </table>
-                </dd>
-             </dl>
-         </li>
-     </ol>
+    <dl class="message-properties">
+        <dt>Comfort Property <span class="property-type">number</span></dt>
+        <dd>The property used to store the comfort level result. Comfort level is an index
+        between -3 (cold) and 3 (hot) that provides a guide to the thermal sense of
+        environmental conditions.
+        <dt>Sensation Property <span class="property-type">string</span></dt>
+        <dd>A text representation of the sensation that most people would feel at the comfort level.
+            <table>
+                <tr><th>Comfort Level</th><th>Sense</th></tr>
+                <tr><td>&gt; 2.5</td><td>hot</td></tr>
+                <tr><td>1.5...2.5</td><td>warm</td></tr>
+                <tr><td>0.5...1.5</td><td>slightly warm</td></tr>
+                <tr><td>0.5...-0.5</td><td>neutral</td></tr>
+                <tr><td>-0.5...-1.5</td><td>slightly cool</td></tr>
+                <tr><td>-1.5...-2.5</td><td>cool</td></tr>
+                <tr><td>&lt; -2.5</td><td>cold</td></tr>
+            </table>
+        </dd>
+    </dl>
 
 <h3>Details</h3>
     <p>Caculates the thermal comfort index for a given set of nvironmental conditions according to the
-    ANSI/ASHRAE Standard 55 climate model.  The index predicts the mean value of the thermal sensation votes (self-reported perceptions) of a large group of persons on a sensation scale expressed from -3 to +3 corresponding to the categories "cold," "cool," "slightly cool," "neutral," "slight warm," "warm," and "hot."</p>
+    ANSI/ASHRAE Standard 55 climate model.  The index predicts the mean value of the thermal sensation votes (self-reported perceptions) of a large group of persons on a sensation scale expressed from -3 to +3 corresponding to the categories "cold", "cool", "slightly cool", "neutral", "slight warm", "warm", and "hot".</p>
 
+    <p>Comfort level can be calculate either using both the
+    <a href="https://en.wikipedia.org/wiki/Dry-bulb_temperature">dry bulb temperature</a> and
+    <a href="https://en.wikipedia.org/wiki/Mean_radiant_temperature">mean radiant temperature</a>, or
+    with just the <a href="https://en.wikipedia.org/wiki/Operative_temperature">operative temperature</a>.
+    As both dry bulb and radiant mean temperatures require special instruments to measure, and the typical
+    electronic temperature sensor measures close to operative temperature, most systems will want to use
+    operative temperature.
 
-     <p>If the output is a msg property, the specified property is added to the input message and sent on.  Otherwise the input message is passed through unchanged. </p>
+     <p>If the output is a msg property, the specified property is added to the input message and sent on.  The input message is passed through otherwise unchanged. </p>
 <h3>References</h3>
     <ul>
-        <li><a href="https://github.com/CenterForTheBuiltEnvironment/comfort_tool">CBE Thermal Comfort Tool</a> - JavaScript implementation of ASHRAE-55 comfort model</li>
+        <li><a href="https://github.com/CenterForTheBuiltEnvironment/comfort_tool">CBE Thermal Comfort Tool</a> - Interactive implementation of ASHRAE-55 comfort model</li>
         <li><a href="https://en.wikipedia.org/wiki/Thermal_comfort">Thermal Comfort</a> - Wikipedia article on thermal comfort.</li>
         <li><a href="https://en.wikipedia.org/wiki/ASHRAE_55">ASHRAE 55</a> - Wikipedia article on ASHRAE 55.</li>
     </ul>
-</script>
 </script>
