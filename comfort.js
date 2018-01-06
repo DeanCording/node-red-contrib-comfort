@@ -68,7 +68,7 @@ module.exports = function(RED) {
             var sensation;
             if (comfort.pmv < -2.5) { sensation = 'cold' }
             else if (comfort.pmv < -1.5) { sensation = 'cool' }
-            else if (comfort.pmv < -0.5) { sensation = 'clightly cool' }
+            else if (comfort.pmv < -0.5) { sensation = 'slightly cool' }
             else if (comfort.pmv < 0.5) { sensation = 'neutral' }
             else if (comfort.pmv < 1.5) { sensation = 'slightly warm' }
             else if (comfort.pmv < 2.5) { sensation = 'warm' }
