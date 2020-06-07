@@ -17,7 +17,7 @@
  **/
 
 const util = require('util');
-const comf = require('./comfortmodels.js').comf;
+const comf = require('./lib/comfortmodels.js').comf;
 
 module.exports = function(RED) {
     "use strict";
