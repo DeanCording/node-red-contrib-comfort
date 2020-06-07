@@ -27,5 +27,14 @@
     "nodes": {
       "comfort": "comfort.js"
     }
+  },
+  "devDependencies": {
+    "eslint": "^7.2.0",
+    "prettier": "^2.0.5"
+  },
+  "scripts": {
+    "format": "prettier --write *.js",
+    "lint": "eslint *.js",
+    "test": "echo \"Error: no test specified\" && exit"
   }
 }
