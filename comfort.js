@@ -17,6 +17,7 @@
  **/
 
 const comf = require('./lib/comfortmodels.js').comf;
+const limits = require('./lib/global.js').envVarLimits;
 
 module.exports = function (RED) {
     'use strict';
@@ -43,20 +44,36 @@ module.exports = function (RED) {
         node.sensationField = n.sensationField || 'payload.sensation';
         node.sensationFieldType = n.sensationFieldType || 'msg';
         node.on('input', function (msg) {
+            var errorStr = '';
+
             var temp = RED.util.evaluateNodeProperty(node.tempField, node.tempFieldType, node, msg) * 1.0;
+            errorStr += validateBounds('Temperature', temp, limits.ta.si);
+
             var mrt;
             if (node.mrtFieldType == 'operative') {
                 mrt = temp;
             } else {
                 mrt = RED.util.evaluateNodeProperty(node.mrtField, node.mrtFieldType, node, msg) * 1.0;
             }
-            var humidity = RED.util.evaluateNodeProperty(node.humidityField, node.humidityFieldType, node, msg) * 1.0;
+            errorStr += validateBounds('Mean Radiant Temp', mrt, limits.tr.si);
+
             var airspeed = RED.util.evaluateNodeProperty(node.airspeedField, node.airspeedFieldType, node, msg) * 1.0;
+            errorStr += validateBounds('Air Speed', airspeed, limits.vel.si);
+
+            var humidity = RED.util.evaluateNodeProperty(node.humidityField, node.humidityFieldType, node, msg) * 1.0;
+            errorStr += validateBounds('Humidity', humidity, limits.rh);
+
             var metabolicRate = RED.util.evaluateNodeProperty(node.metabolicRateField, node.metabolicRateFieldType, node, msg) * 1.0;
+            errorStr += validateBounds('Metabolic Rate', metabolicRate, limits.met);
+
             var clothingLevel = RED.util.evaluateNodeProperty(node.clothingLevelField, node.clothingLevelFieldType, node, msg) * 1.0;
+            errorStr += validateBounds('Clothing Level', clothingLevel, limits.clo);
+
+            if (errorStr.length > 0) {
+                return node.error(errorStr, msg);
+            }
 
             var comfort;
-
             if (node.airspeed <= 0.2) {
                 comfort = comf.pmv(temp, mrt, airspeed, humidity, metabolicRate, clothingLevel, 0);
             } else {
@@ -90,6 +107,13 @@ module.exports = function (RED) {
 
             node.send(msg);
         });
+
+        function validateBounds(propName, value, bounds) {
+            if (value < bounds.min || value > bounds.max) {
+                return `Invalid ${propName} value '${value}' (allowed: [${bounds.min}, ${bounds.max}]). `;
+            }
+            return '';
+        }
     }
 
     RED.nodes.registerType('comfort', ComfortNode);
