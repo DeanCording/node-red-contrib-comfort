@@ -16,7 +16,6 @@
  *    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  **/
 
-const util = require('util');
 const comf = require('./lib/comfortmodels.js').comf;
 
 module.exports = function(RED) {
